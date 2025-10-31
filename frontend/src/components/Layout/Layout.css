@@ -1,0 +1,194 @@
+/* Layout Principal */
+.layout {
+  display: flex;
+  min-height: 100vh;
+  background: #0f0f0f;
+  color: #fff;
+  font-family: "Segoe UI", system-ui, sans-serif;
+}
+
+/* Sidebar */
+.sidebar {
+  width: 280px;
+  background: #1a1a1a;
+  border-right: 1px solid #333;
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar-header {
+  padding: 1.5rem;
+  border-bottom: 1px solid #333;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.logo-icon {
+  font-size: 1.5rem;
+  background: linear-gradient(135deg, #ff0022, #8b0000);
+  border-radius: 8px;
+  padding: 0.25rem;
+}
+
+.logo-text {
+  font-weight: bold;
+  font-size: 1.1rem;
+  background: linear-gradient(135deg, #fff, #ccc);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Navegação */
+.sidebar-nav {
+  flex: 1;
+  padding: 1rem 0.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.nav-item {
+  width: 100%;
+  background: none;
+  border: none;
+  color: #ccc;
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 0.9rem;
+}
+
+.nav-item:hover {
+  background: #252525;
+  color: #fff;
+}
+
+.nav-item.active {
+  background: linear-gradient(135deg, #8b0000, #ff0022);
+  color: #fff;
+}
+
+.nav-icon {
+  font-size: 1.1rem;
+  min-width: 20px;
+  text-align: center;
+}
+
+.nav-label {
+  font-weight: 500;
+}
+
+/* Footer da Sidebar */
+.sidebar-footer {
+  padding: 1.5rem;
+  border-top: 1px solid #333;
+  background: #1a1a1a;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.user-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #ff0022, #8b0000);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 1rem;
+}
+
+.user-details {
+  flex: 1;
+}
+
+.user-name {
+  font-weight: bold;
+  font-size: 0.9rem;
+}
+
+.user-email {
+  font-size: 0.8rem;
+  color: #ccc;
+}
+
+.user-role {
+  font-size: 0.75rem;
+  color: #ff0022;
+  font-weight: 500;
+}
+
+.logout-btn {
+  width: 100%;
+  background: linear-gradient(135deg, #8b0000, #ff0022);
+  color: white;
+  border: none;
+  padding: 0.75rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-weight: bold;
+}
+
+.logout-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(255, 0, 34, 0.3);
+}
+
+/* Main Content */
+.main-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.content-header {
+  background: #1a1a1a;
+  border-bottom: 1px solid #333;
+  padding: 1.5rem 2rem;
+}
+
+.content-header h1 {
+  font-size: 1.5rem;
+  background: linear-gradient(135deg, #fff, #ff0022);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin: 0;
+}
+
+.page-content {
+  flex: 1;
+  padding: 2rem;
+  background: #0f0f0f;
+  overflow-y: auto;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .layout {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    width: 100%;
+    height: auto;
+  }
+
+  .page-content {
+    padding: 1rem;
+  }
+}
