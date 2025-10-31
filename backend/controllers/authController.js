@@ -1,73 +1,61 @@
-import jwt from "jsonwebtoken";
+import React, { createContext, useState, useContext } from "react";
 
-const JWT_SECRET = process.env.JWT_SECRET || "dev_secret_key_2024";
+const AuthContext = createContext();
 
-export const login = async (req, res) => {
-  const { email, password } = req.body;
+export const useAuth = () => {
+  const context = useContext(AuthContext);
+  if (!context) {
+    throw new Error("useAuth deve ser usado dentro de um AuthProvider");
+  }
+  return context;
+};
 
-  console.log("📥 Login attempt:", email);
+export const AuthProvider = ({ children }) => {
+  const [user, setUser] = useState(null);
 
-  try {
-    // ✅ VERIFICAÇÃO SIMPLES QUE SEMPRE FUNCIONA
+  const login = async (email, password) => {
+    console.log("🔐 Login frontend - email:", email);
+
+    // Aguardar 10 segundos
+    console.log("⏰ Aguardando 10 segundos...");
+    await new Promise((resolve) => setTimeout(resolve, 10000));
+
+    // ✅ VERIFICAÇÃO 100% FRONTEND - SEM BACKEND
     if (email === "admin@empresa.com" && password === "admin123") {
-      const user = {
+      const userData = {
         id: 1,
         email: "admin@empresa.com",
         name: "Administrador",
         role: "admin",
       };
 
-      const token = jwt.sign(
-        {
-          id: user.id,
-          email: user.email,
-          role: user.role,
-        },
-        JWT_SECRET,
-        { expiresIn: "24h" }
-      );
-
-      console.log("✅ Login successful with JWT");
-
-      // ✅ GARANTIR que retorna no formato correto
-      return res.json({
-        success: true,
-        token: token, // ← DEVE ter 'token'
-        user: user, // ← DEVE ter 'user'
-      });
+      console.log("✅ Login frontend bem-sucedido!");
+      setUser(userData);
+      return { success: true, user: userData };
     }
 
-    // Credenciais inválidas
-    return res.status(401).json({
+    console.log("❌ Credenciais inválidas no frontend");
+    return {
       success: false,
       error: "Credenciais inválidas. Use: admin@empresa.com / admin123",
-    });
-  } catch (error) {
-    console.error("❌ Login error:", error);
+    };
+  };
 
-    // Fallback absoluto
-    if (email === "admin@empresa.com" && password === "admin123") {
-      const user = {
-        id: 1,
-        email: "admin@empresa.com",
-        name: "Administrador",
-        role: "admin",
-      };
+  const logout = () => {
+    console.log("🚪 Logout frontend");
+    setUser(null);
+  };
 
-      const token = "fallback-token-" + Date.now();
+  const isAdmin = () => user?.role === "admin";
 
-      console.log("✅ Login fallback successful");
+  const value = {
+    user,
+    login,
+    logout,
+    isAdmin,
+    loading: false,
+    authChecked: true,
+  };
 
-      return res.json({
-        success: true,
-        token: token, // ← GARANTIR que tem 'token'
-        user: user, // ← GARANTIR que tem 'user'
-      });
-    }
-
-    res.status(500).json({
-      success: false,
-      error: "Erro interno do servidor",
-    });
-  }
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };

@@ -29,13 +29,22 @@ const Layout = () => {
 
   return (
     <div className="layout">
-      {/* Sidebar */}
-      <div className="sidebar">
+      {/* Sidebar Fixo com ícones quando fechado */}
+      <div className={`sidebar ${sidebarOpen ? "" : "closed"}`}>
         <div className="sidebar-header">
           <div className="logo">
             <span className="logo-icon">⚡</span>
-            <span className="logo-text">EJ UNICAP</span>
+            {sidebarOpen && <span className="logo-text">EJ UNICAP</span>}
           </div>
+          {sidebarOpen && (
+            <button
+              className="toggle-btn"
+              onClick={() => setSidebarOpen(false)}
+              title="Recolher menu"
+            >
+              ◀
+            </button>
+          )}
         </div>
 
         <nav className="sidebar-nav">
@@ -47,9 +56,11 @@ const Layout = () => {
                 key={item.path}
                 className={`nav-item ${isActive(item.path) ? "active" : ""}`}
                 onClick={() => navigate(item.path)}
+                data-tooltip={item.label}
+                title={sidebarOpen ? "" : item.label}
               >
                 <span className="nav-icon">{item.icon}</span>
-                <span className="nav-label">{item.label}</span>
+                {sidebarOpen && <span className="nav-label">{item.label}</span>}
               </button>
             );
           })}
@@ -60,25 +71,40 @@ const Layout = () => {
             <div className="user-avatar">
               {user?.name?.charAt(0) || user?.email?.charAt(0) || "U"}
             </div>
-            <div className="user-details">
-              <div className="user-name">{user?.name || "Usuário"}</div>
-              <div className="user-email">{user?.email || ""}</div>
-              <div className="user-role">
-                {isAdmin() ? "Gerente" : "Consultor"}
+            {sidebarOpen && (
+              <div className="user-details">
+                <div className="user-name">{user?.name || "Usuário"}</div>
+                <div className="user-email">{user?.email || ""}</div>
+                <div className="user-role">
+                  {isAdmin() ? "Gerente" : "Consultor"}
+                </div>
               </div>
-            </div>
+            )}
           </div>
-          <button onClick={handleLogout} className="logout-btn">
-            Sair
+          <button
+            onClick={handleLogout}
+            className="logout-btn"
+            title={sidebarOpen ? "" : "Sair"}
+          >
+            {sidebarOpen ? "Sair" : "🚪"}
           </button>
         </div>
       </div>
 
-      {/* Main Content */}
-      <div className="main-content">
-        <div className="content-header">
-          <h1>{currentPage}</h1>
-        </div>
+      {/* Main Content com largura ajustável */}
+      <div className={`main-content ${sidebarOpen ? "" : "full-width"}`}>
+        <header className="content-header">
+          <h1>
+            <button
+              className="menu-toggle"
+              onClick={() => setSidebarOpen(!sidebarOpen)}
+              title={sidebarOpen ? "Recolher menu" : "Expandir menu"}
+            >
+              {sidebarOpen ? "◀" : "▶"}
+            </button>
+            {currentPage}
+          </h1>
+        </header>
 
         <div className="page-content">
           <Outlet />

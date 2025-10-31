@@ -17,7 +17,7 @@ export const AuthProvider = ({ children }) => {
     console.log("🔐 Tentando login:", email);
 
     // Aguardar 10 segundos
-    await new Promise((resolve) => setTimeout(resolve, 10000));
+    await new Promise((resolve) => setTimeout(resolve, 1000));
 
     // Verificação SIMPLES
     if (email === "admin@empresa.com" && password === "admin123") {
